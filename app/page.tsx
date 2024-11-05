@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="flex sm:min-h-[91vh] min-h-[88vh] flex-col items-center justify-center text-center px-2 py-8">
       <Link
-        href="https://github.com/nisabmohd/Aria-Docs"
+        href="https://github.com/officialkodekang/BloodcellCancerDetection"
         target="_blank"
         className="mb-5 sm:text-lg flex items-center gap-2 underline underline-offset-4"
       >

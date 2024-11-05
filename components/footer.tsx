@@ -14,7 +14,7 @@ export function Footer() {
             . The source code is available on{" "}
             <Link
               className="px-1 underline underline-offset-2"
-              href="https://github.com/nisabmohd/Aria-Docs"
+              href="https://github.com/officialkodekang/BloodcellCancerDetection"
             >
               GitHub
             </Link>
@@ -33,13 +33,7 @@ export function Footer() {
 export function FooterButtons() {
   return (
     <>
-      <Link
-        href="https://vercel.com/templates/next.js/documentation-template"
-        className={buttonVariants({ variant: "outline", size: "sm" })}
-      >
-        <TriangleIcon className="h-[0.8rem] w-4 mr-2 text-primary fill-current" />
-        Deploy
-      </Link>
+      
       {/* <Link
         href="https://github.com/sponsors/nisabmohd"
         className={buttonVariants({ variant: "outline", size: "sm" })}
