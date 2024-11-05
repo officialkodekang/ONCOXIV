@@ -1,0 +1,46 @@
+---
+title: VGG Model for Blood Cell Cancer Classification
+description: .
+---
+
+
+## Step 7: Define Model Architecture with VGG Backbone
+
+### Step 7.1: Multitask Model with VGG Backbone
+
+- *Base Model (VGG16)*:
+  - *Layers*: The model uses VGG16 with batch normalization (vgg16_bn). VGG16 is known for its simplicity with a stack of convolutional layers followed by fully connected layers.
+  - *Features Extraction*: The features attribute from the pretrained VGG16 model is used, which includes convolutional and pooling layers for effective feature extraction.
+  - *Average Pooling Layer*: The avgpool layer from VGG16 is retained to reduce the spatial dimensions before feeding into the fully connected layers.
+
+### Model Modifications
+
+- *Freeze Convolutional Layers*:
+  - *Frozen Layers*: The convolutional layers are optionally frozen to utilize pretrained features without further modification.
+  - *Purpose*: Helps reduce computational costs and prevent overfitting, especially with a limited dataset.
+
+- *Task-Specific Heads*:
+  1. *Binary Classifier Head*:
+     - *Architecture*: Linear layer (512 * 7 * 7 to 256) -> ReLU (in-place) -> Dropout (0.5) -> Linear layer (256 to 2).
+     - *Purpose*: Classify images as Benign or Malignant.
+  2. *Subtype Classifier Head*:
+     - *Architecture*: Linear layer (512 * 7 * 7 to 256) -> ReLU (in-place) -> Dropout (0.5) -> Linear layer (256 to 3).
+     - *Purpose*: Classify malignant images into subtypes (Pre-B, Pro-B, early Pre-B).
+
+### Multitask Learning
+
+- *Simultaneous Learning*: The model is designed to perform multitask learning by sharing a common feature extractor (the VGG16 convolutional layers) and using two different classification heads.
+  - *Shared Representations*: This approach allows the model to learn shared features beneficial for both tasks, thus improving overall accuracy.
+
+### Forward Pass
+
+- *Feature Extraction*: Pass the input image through the features layers and then apply average pooling.
+- *Flattening*: Flatten the output from the pooling layer before feeding it to the classifier heads.
+- *Binary Classification*: Use the binary classifier head to determine if the image is Benign or Malignant.
+- *Subtype Classification*: If the image is classified as Malignant, pass it through the subtype classifier head to determine the specific subtype.
+
+### Overfitting Prevention
+
+- *Dropout Layers*: Dropout layers are included in the classifier heads to help reduce overfitting by randomly dropping units during training.
+  - *Purpose*: Helps the model generalize better, particularly important for medical data with a limited number of samples.
+

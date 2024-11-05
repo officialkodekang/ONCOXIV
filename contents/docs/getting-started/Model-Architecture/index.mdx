@@ -1,0 +1,7 @@
+---
+title:   Model Architecture
+description: .
+---
+
+
+In this section, we describe the architectures of two powerful convolutional neural networks (CNNs): VGG16 and ResNet50. Both models are well-established in computer vision tasks and are adapted here for the classification of blood cell cancer images. VGG16 is a straightforward yet deep architecture consisting of 16 layers that rely on a series of convolutional operations to extract features, followed by fully connected layers for classification. On the other hand, ResNet50 is a more advanced model that incorporates residual connections to allow deeper networks to be trained effectively by mitigating the vanishing gradient problem. Both networks are utilized for multitask learning, where they classify images as Benign or Malignant and further classify Malignant images into specific subtypes. By leveraging pretrained weights and using distinct classifier heads, these models are fine-tuned to achieve high accuracy in detecting and categorizing blood cell cancer images.

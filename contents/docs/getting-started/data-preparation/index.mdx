@@ -1,0 +1,20 @@
+---
+title: Data Preparation
+description: .
+---
+
+### Step 4.1: Generate CSV File
+- *Generate CSV*: Create a CSV file that contains paths to images and their labels (Benign or Malignant, and subtype for Malignant).
+  - *Automation*: Labels are derived based on folder names, automating the labeling process and reducing human error.
+- *Function*: create_csv(data_dir, csv_filename)
+  - Iterates through the dataset directory and extracts information such as image paths and labels.
+  - *Purpose*: Provides an organized structure for efficiently loading data during training.
+
+### Step 4.2: Split Data into Train, Validation, and Test Sets
+- *Split Data*: Split data into training, validation, and test sets using stratified splitting.
+  - *Training Set*: Used to train the model.
+  - *Validation Set*: Used to tune hyperparameters and prevent overfitting.
+  - *Test Set*: Used to evaluate the final model's performance.
+- *Stratified Splitting*: Ensures each class is represented proportionally in all subsets.
+  - *Function*: split_data(csv_file, train_csv, val_csv, test_csv, val_size=0.1, test_size=0.1, random_state=42)
+  - *Purpose*: Helps maintain a balanced dataset, reducing bias and improving generalization.

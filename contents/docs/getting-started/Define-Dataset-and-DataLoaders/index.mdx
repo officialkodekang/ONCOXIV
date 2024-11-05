@@ -1,0 +1,26 @@
+---
+title: Define Dataset and DataLoaders
+description: .
+---
+
+### Custom Dataset Class
+- *Custom Dataset*: Create a class (BloodCellDataset) to handle image data.
+  - *Function*: __getitem__() and __len__() methods to load and provide individual samples.
+  - *Read CSV*: Loads the CSV file, reads images, and applies necessary transformations.
+  - *Integration*: Easily integrates with PyTorch's DataLoader API for efficient data loading.
+
+### Data Transformations
+- *Training Transforms*:
+  - *Resizing*: Resize images to a fixed size.
+  - *Data Augmentation*: Apply random flips, rotations, and color jitter to introduce variations.
+  - *Purpose*: Helps the model generalize better by learning features under different conditions.
+- *Validation and Test Transforms*:
+  - *Normalization*: Only resize and normalize images (no augmentation).
+  - *Purpose*: Maintain consistency during evaluation.
+
+### Data Loaders
+- *Create Data Loaders*:
+  - *Training Data Loader*: Loads training data in batches with shuffle=True to improve generalization.
+  - *Validation and Test Loaders*: Load validation and test data without shuffling.
+  - *Batch Size*: Set to 16 for all data loaders.
+  - *Purpose*: Efficiently load data in batches, reducing memory usage and speeding up training.

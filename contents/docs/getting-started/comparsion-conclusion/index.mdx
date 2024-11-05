@@ -1,0 +1,81 @@
+---
+title:  VGG and ResNet Models for Blood Cell Cancer Classification - Results and Comparison
+description: .
+---
+
+
+## Step 11: Model Results and Comparison
+
+### VGG Model Results
+
+- *Training and Validation Summary*:
+  - The VGG model showed steady improvement during training. Early stopping occurred at epoch 9, indicating convergence.
+  - *Training Accuracy*:
+    - *Binary Classification*: Increased from 85.31% in Epoch 1 to 96.03% in Epoch 9.
+    - *Subtype Classification*: Improved from 81.72% to 96.79% by the final epoch.
+  - *Validation Accuracy*:
+    - *Binary Classification*: Reached a peak of 97.53%.
+    - *Subtype Classification*: Achieved an accuracy of 96.67%.
+
+- *Final Evaluation on Test Set*:
+  - *Binary Classification*:
+    - *Accuracy*: 97%.
+    - *Precision, Recall, F1-score*: High precision and recall for both Benign (87% and 94%, respectively) and Malignant (99% and 97%, respectively).
+  - *Subtype Classification*:
+    - *Accuracy*: 96%.
+    - *Class-specific Performance*: Notable precision and recall for Pre-B, Pro-B, and early Pre-B with overall macro and weighted averages of 96%.
+
+### ResNet Model Results
+
+- *Training and Validation Summary*:
+  - The ResNet model demonstrated a more rapid convergence compared to the VGG model, with early stopping occurring at epoch 8.
+  - *Training Accuracy*:
+    - *Binary Classification*: Reached 98.61% by the final epoch, starting from 91.67% in Epoch 1.
+    - *Subtype Classification*: Improved consistently to 98.76% by Epoch 8.
+  - *Validation Accuracy*:
+    - *Binary Classification*: Reached an impressive 98.77%.
+    - *Subtype Classification*: Achieved perfect accuracy (100%) in the final epochs.
+
+- *Final Evaluation on Test Set*:
+  - *Binary Classification*:
+    - *Accuracy*: 99%.
+    - *Precision, Recall, F1-score*: Exceptional performance for both Benign (96% precision and 100% recall) and Malignant (100% precision and 99% recall).
+  - *Subtype Classification*:
+    - *Accuracy*: 100%.
+    - *Class-specific Performance*: Perfect performance metrics across Pre-B, Pro-B, and early Pre-B, indicating the model's robustness.
+
+### Comparative Analysis of VGG vs. ResNet
+
+        | Metric                   | VGG Model           | ResNet Model         |
+        |-------------------------|---------------------|----------------------|
+        | *Training Epochs*     | 9                   | 8                    |
+        | *Binary Accuracy (Val)* | 97.53%              | 98.77%               |
+        | *Subtype Accuracy (Val)* | 96.67%            | 100%                 |
+        | *Binary Accuracy (Test)* | 97%               | 99%                  |
+        | *Subtype Accuracy (Test)* | 96%              | 100%                 |
+        | *Precision (Malignant)* | 99%                | 100%                 |
+        | *Recall (Malignant)*  | 97%                 | 99%                  |
+        | *Overall Convergence* | Moderate            | Faster               |
+
+#### Key Observations
+
+1. *Accuracy and Convergence*:
+   - The ResNet model consistently outperformed the VGG model in both binary and subtype classification, achieving higher accuracy in fewer epochs.
+   - ResNet's faster convergence indicates a more efficient learning process, likely due to its deeper architecture and residual connections, which facilitate the flow of gradients during backpropagation.
+
+2. *Generalization*:
+   - ResNet demonstrated better generalization capabilities, as evident from its higher validation and test accuracies for both tasks.
+   - The VGG model, while achieving high performance, did not generalize as well as ResNet, especially in the subtype classification task.
+
+3. *Subtype Classification*:
+   - ResNet reached perfect accuracy for subtype classification, highlighting its ability to capture nuanced features for differentiating between similar classes (e.g., Pre-B, Pro-B, early Pre-B).
+   - The VGG model performed well but had minor discrepancies in recall for specific subtypes, which may be attributed to its less complex architecture compared to ResNet.
+
+4. *Overfitting Prevention*:
+   - Both models utilized dropout effectively to prevent overfitting. However, ResNet's deeper structure and use of residual connections provided an edge in retaining generalization during training.
+
+### Conclusion
+
+- *Model Selection*: The ResNet model is recommended for blood cell cancer classification due to its superior performance in both binary and subtype classification tasks. Its ability to achieve high accuracy in fewer epochs demonstrates efficient learning and better generalization.
+- *VGG Limitations*: While VGG is simpler and performed well, its accuracy and generalization lagged slightly behind ResNet. It may still be a viable option in environments with limited computational resources where a lighter model is preferred.
+- *Future Work*: Investigating ensemble methods combining ResNet and VGG, or further optimizing hyperparameters for VGG, could yield improved results. Additionally, exploring other state-of-the-art architectures like EfficientNet could provide even greater performance gains.
