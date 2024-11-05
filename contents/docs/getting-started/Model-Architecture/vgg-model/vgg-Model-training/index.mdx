@@ -12,8 +12,15 @@ description: Integrations guide for our application.
   - *Loss Calculation*: Uses a combined loss for both binary and subtype classification tasks.
 - *Loss Functions*: Cross-entropy loss is used for both classification tasks.
 - *Optimizer*: Adam optimizer with weight decay is used to help regularize the model.
-- *Learning Rate Scheduler*: A step learning rate scheduler is applied to adjust the learning rate periodically during training.
 
+```python
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-4, weight_decay=1e-5)
+
+        ```
+- *Learning Rate Scheduler*: A step learning rate scheduler is applied to adjust the learning rate periodically during training.
+```python
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
+        ```
 ### Step 8.2: Training Parameters
 
 - *Epochs*: The model is trained for 25 epochs.

@@ -4,6 +4,30 @@ description: Prepare the environment by importing essential libraries.
 ---
 
 Prepare the environment by importing essential libraries and configuring the device for optimized model training.
+
 - *Import Libraries*: Import necessary libraries for data manipulation, visualization, deep learning, and evaluation.
 - *Set Device*: Configure the device for training (cuda if available, otherwise cpu).
   - *Purpose*: Using a GPU significantly accelerates the training process, especially for a deep learning model like ResNet.
+
+```python
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+from torchvision import models, transforms
+from torchvision.utils import make_grid
+from PIL import Image
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
+
+import warnings
+warnings.filterwarnings("ignore")
+
+# Device configuration
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f'Using device: {device}')

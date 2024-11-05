@@ -53,7 +53,7 @@ export const ROUTES: EachRoute[] = [
 
 
            {
-        title: "Model Architecture2",
+        title: "Model Architectures",
         href: "/Model-Architecture",
         items: [
           { title: "Resnet50 Model", href: "/Resnet50",

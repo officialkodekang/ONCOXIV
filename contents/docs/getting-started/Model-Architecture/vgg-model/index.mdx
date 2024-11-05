@@ -1,6 +1,6 @@
 ---
 title: VGG Model for Blood Cell Cancer Classification
-description: .
+description: 
 ---
 
 
@@ -23,10 +23,26 @@ description: .
   1. *Binary Classifier Head*:
      - *Architecture*: Linear layer (512 * 7 * 7 to 256) -> ReLU (in-place) -> Dropout (0.5) -> Linear layer (256 to 2).
      - *Purpose*: Classify images as Benign or Malignant.
+
+    ```python
+    self.binary_classifier = nn.Sequential(
+            nn.Linear(num_ftrs, 256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.5),
+            nn.Linear(256, 2)
+        )
+        ```
   2. *Subtype Classifier Head*:
      - *Architecture*: Linear layer (512 * 7 * 7 to 256) -> ReLU (in-place) -> Dropout (0.5) -> Linear layer (256 to 3).
      - *Purpose*: Classify malignant images into subtypes (Pre-B, Pro-B, early Pre-B).
-
+    ```python
+    self.subtype_classifier = nn.Sequential(
+            nn.Linear(num_ftrs, 256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.5),
+            nn.Linear(256, 3)
+        )
+        ```
 ### Multitask Learning
 
 - *Simultaneous Learning*: The model is designed to perform multitask learning by sharing a common feature extractor (the VGG16 convolutional layers) and using two different classification heads.
@@ -39,6 +55,16 @@ description: .
 - *Binary Classification*: Use the binary classifier head to determine if the image is Benign or Malignant.
 - *Subtype Classification*: If the image is classified as Malignant, pass it through the subtype classifier head to determine the specific subtype.
 
+```python
+    def forward(self, x):
+        x = self.features(x)
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)  # Flatten the tensor starting from dimension 1
+        binary_out = self.binary_classifier(x)
+        subtype_out = self.subtype_classifier(x)
+        return binary_out, subtype_out
+
+        ```
 ### Overfitting Prevention
 
 - *Dropout Layers*: Dropout layers are included in the classifier heads to help reduce overfitting by randomly dropping units during training.

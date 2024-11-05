@@ -15,12 +15,10 @@ export default function Home() {
         <MoveUpRightIcon className="w-4 h-4 font-extrabold" />
       </Link>
       <h1 className="text-3xl font-bold mb-4 sm:text-7xl">
-        An example app built using Next.js and server components.
+        Multi-Task Learning approach for severity analysis & cancer diagnosis.
       </h1>
       <p className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground">
-        This feature-packed documentation template, built with Next.js, offers a
-        sleek and responsive design, perfect for all your project documentation
-        needs.
+        This project involves the use of a deep learning model, ResNet, VGG, to classify blood cell cancer images into two primary classes: Benign and Malignant.
       </p>
       <div className="flex flex-row items-center gap-5">
         <Link
@@ -40,10 +38,7 @@ export default function Home() {
           Model
         </Link>
       </div>
-      <span className="flex flex-row items-start sm:gap-2 gap-0.5 text-muted-foreground text-md mt-7 -mb-12 max-[800px]:mb-12 font-code text-base font-medium">
-        <TerminalSquareIcon className="w-5 h-5 mr-1 mt-0.5" />
-        {"npx create-aria-doc <project-directory>"}
-      </span>
+      
     </div>
   );
 }

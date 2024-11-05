@@ -1,6 +1,6 @@
 ---
 title: Data Preparation
-description: .
+description:
 ---
 
 ### Step 4.1: Generate CSV File
@@ -10,6 +10,39 @@ description: .
   - Iterates through the dataset directory and extracts information such as image paths and labels.
   - *Purpose*: Provides an organized structure for efficiently loading data during training.
 
+```python
+  def create_csv(data_dir, csv_filename):
+      data = []
+      for root, dirs, files in os.walk(data_dir):
+          for file in files:
+              if file.lower().endswith(('.jpg', '.png', '.jpeg')):
+                  filepath = os.path.join(root, file)
+                  # Extract class information from the folder structure
+                  parts = filepath.split(os.sep)
+                  class_name = parts[-2]  
+
+                  if class_name == 'Benign':
+                      binary_label = 0
+                      subtype_label = -1
+                  elif class_name == '[Malignant] Pre-B':
+                      binary_label = 1
+                      subtype_label = 0
+                  elif class_name == '[Malignant] Pro-B':
+                      binary_label = 1
+                      subtype_label = 1
+                  elif class_name == '[Malignant] early Pre-B':
+                      binary_label = 1
+                      subtype_label = 2
+                  else:
+                      continue  # Skip unknown classes
+
+                  data.append([filepath, binary_label, subtype_label])
+
+      df = pd.DataFrame(data, columns=['filepath', 'binary_label', 'subtype_label'])
+      df.to_csv(csv_filename, index=False)
+      print(f"CSV file saved to {csv_filename}")
+     ``` 
+
 ### Step 4.2: Split Data into Train, Validation, and Test Sets
 - *Split Data*: Split data into training, validation, and test sets using stratified splitting.
   - *Training Set*: Used to train the model.
@@ -18,3 +51,8 @@ description: .
 - *Stratified Splitting*: Ensures each class is represented proportionally in all subsets.
   - *Function*: split_data(csv_file, train_csv, val_csv, test_csv, val_size=0.1, test_size=0.1, random_state=42)
   - *Purpose*: Helps maintain a balanced dataset, reducing bias and improving generalization.
+
+```python
+split_data('dataset_labels.csv', 'train_labels.csv', 'val_labels.csv', 'test_labels.csv')
+
+```

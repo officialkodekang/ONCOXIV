@@ -7,7 +7,32 @@ description: .
 - *Custom Dataset*: Create a class (BloodCellDataset) to handle image data.
   - *Function*: __getitem__() and __len__() methods to load and provide individual samples.
   - *Read CSV*: Loads the CSV file, reads images, and applies necessary transformations.
-  - *Integration*: Easily integrates with PyTorch's DataLoader API for efficient data loading.
+
+```python
+class BloodCellDataset(Dataset):
+    def __init__(self, csv_file, transform=None):
+        self.dataframe = pd.read_csv(csv_file)
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, idx):
+        img_path = self.dataframe.iloc[idx]['filepath']
+        image = Image.open(img_path).convert('RGB')
+        binary_label = self.dataframe.iloc[idx]['binary_label']
+        subtype_label = self.dataframe.iloc[idx]['subtype_label']
+
+        if self.transform:
+            image = self.transform(image)
+
+        sample = {
+            'image': image,
+            'binary_label': torch.tensor(binary_label, dtype=torch.long),
+            'subtype_label': torch.tensor(subtype_label, dtype=torch.long)
+        }
+        return sample
+ ```         
 
 ### Data Transformations
 - *Training Transforms*:
@@ -18,9 +43,40 @@ description: .
   - *Normalization*: Only resize and normalize images (no augmentation).
   - *Purpose*: Maintain consistency during evaluation.
 
+
+```python
+train_transforms = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomVerticalFlip(),
+    transforms.RandomRotation(20),
+    transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
+    transforms.RandomAffine(degrees=20, shear=0.2),
+    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406],
+                         [0.229, 0.224, 0.225])
+])
+
+val_transforms = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406],
+                         [0.229, 0.224, 0.225])
+])
+
+```
 ### Data Loaders
 - *Create Data Loaders*:
   - *Training Data Loader*: Loads training data in batches with shuffle=True to improve generalization.
   - *Validation and Test Loaders*: Load validation and test data without shuffling.
   - *Batch Size*: Set to 16 for all data loaders.
   - *Purpose*: Efficiently load data in batches, reducing memory usage and speeding up training.
+
+
+```python
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=4, drop_last=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=4, drop_last=True)
+
+```
