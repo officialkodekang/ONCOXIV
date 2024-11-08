@@ -18,7 +18,7 @@ export default function Home() {
         Multi-Task Learning approach for severity analysis & cancer diagnosis.
       </h1>
       <p className="mb-8 sm:text-xl max-w-[800px] text-muted-foreground">
-        This project involves the use of a deep learning model, ResNet, VGG, to classify blood cell cancer images into two primary classes: Benign and Malignant.
+        This project involves the use of two deep learning models, ResNet, VGG, to classify blood cell cancer images into two primary classes: Benign and Malignant.
       </p>
       <div className="flex flex-row items-center gap-5">
         <Link
