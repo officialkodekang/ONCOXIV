@@ -19,7 +19,7 @@ export default function UploadPage() {
   const subtypeLabelMap: { [key: number]: string } = {
     0: "Pre-B",
     1: "Pro-B",
-    2: "early Pre-B",
+    2: "Early Pre-B",
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,9 +64,7 @@ export default function UploadPage() {
       if (!response.ok) {
         // Display the error message from the response
         const errorData = JSON.parse(responseText);
-        throw new Error(
-          `Server Error: ${response.status} - ${errorData.error}`
-        );
+        throw new Error(`Server Error: ${response.status} - ${errorData.error}`);
       }
 
       // Define the expected structure of the API response
@@ -78,13 +76,14 @@ export default function UploadPage() {
 
       const data: ApiResponse = JSON.parse(responseText);
 
-      console.log(data);
-
       // Map the labels to human-readable labels
       const binaryLabel = binaryLabelMap[data.binary_class_id] || "Unknown";
       const subtypeLabel = subtypeLabelMap[data.subtype_class_id] || "Unknown";
 
-      const resultText = `Binary Classification: ${binaryLabel}\nSubtype Classification: ${subtypeLabel}`;
+      const resultText = `Binary Classification: ${binaryLabel}`;
+      if (data.subtype_class_id !== undefined) {
+        resultText += `\nSubtype Classification: ${subtypeLabel}`;
+      }
 
       setResult(resultText);
 
@@ -132,7 +131,6 @@ export default function UploadPage() {
 
       {/* Upload Section */}
       <div className="mt-4 flex flex-col sm:flex-row items-start gap-4">
-        {/* File Input and Selected File Name */}
         <div className="flex flex-col w-full sm:w-2/3">
           <label htmlFor="fileInput" className="block mb-2 font-medium">
             Select Image:
@@ -151,9 +149,7 @@ export default function UploadPage() {
             onClick={handleSubmit}
             disabled={loading}
             className={`px-6 py-2 rounded text-white w-full sm:w-auto ${
-              loading
-                ? "bg-gray-500 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+              loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
             {loading ? "Processing..." : "Submit"}
@@ -161,10 +157,16 @@ export default function UploadPage() {
         </div>
       </div>
 
+      {/* Loading Indicator */}
+      {loading && (
+        <div className="flex justify-center items-center">
+          <div className="loader">Loading...</div>
+        </div>
+      )}
+
       {/* Display the images and results side by side */}
       {(imagePreview || heatmapImage || result) && (
         <div className="flex flex-col md:flex-row gap-6 mt-6">
-          {/* Left Column: Uploaded Image */}
           <div className="flex-1">
             {imagePreview && (
               <div>
@@ -177,8 +179,6 @@ export default function UploadPage() {
               </div>
             )}
           </div>
-
-          {/* Right Column: Heatmap and Result */}
           <div className="flex-1 flex flex-col gap-4">
             {heatmapImage && (
               <div>
