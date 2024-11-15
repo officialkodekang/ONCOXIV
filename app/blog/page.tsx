@@ -62,7 +62,6 @@ export default function UploadPage() {
       const responseText = await response.text();
 
       if (!response.ok) {
-        // Display the error message from the response
         const errorData = JSON.parse(responseText);
         throw new Error(`Server Error: ${response.status} - ${errorData.error}`);
       }
@@ -78,10 +77,11 @@ export default function UploadPage() {
 
       // Map the labels to human-readable labels
       const binaryLabel = binaryLabelMap[data.binary_class_id] || "Unknown";
-      const subtypeLabel = subtypeLabelMap[data.subtype_class_id] || "Unknown";
+      let resultText = `Binary Classification: ${binaryLabel}`;  // Use let to allow modification
 
-      const resultText = `Binary Classification: ${binaryLabel}`;
+      // Conditionally add subtype classification to resultText
       if (data.subtype_class_id !== undefined) {
+        const subtypeLabel = subtypeLabelMap[data.subtype_class_id] || "Unknown";
         resultText += `\nSubtype Classification: ${subtypeLabel}`;
       }
 
@@ -157,13 +157,6 @@ export default function UploadPage() {
         </div>
       </div>
 
-      {/* Loading Indicator */}
-      {loading && (
-        <div className="flex justify-center items-center">
-          <div className="loader">Loading...</div>
-        </div>
-      )}
-
       {/* Display the images and results side by side */}
       {(imagePreview || heatmapImage || result) && (
         <div className="flex flex-col md:flex-row gap-6 mt-6">
@@ -179,6 +172,7 @@ export default function UploadPage() {
               </div>
             )}
           </div>
+
           <div className="flex-1 flex flex-col gap-4">
             {heatmapImage && (
               <div>
