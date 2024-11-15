@@ -80,7 +80,7 @@ export default function UploadPage() {
       let resultText = `Binary Classification: ${binaryLabel}`;  // Use let to allow modification
 
       // Conditionally add subtype classification to resultText
-      if (data.subtype_class_id !== undefined) {
+      if (binaryLabel !== "Benign" && data.subtype_class_id !== undefined) {
         const subtypeLabel = subtypeLabelMap[data.subtype_class_id] || "Unknown";
         resultText += `\nSubtype Classification: ${subtypeLabel}`;
       }
