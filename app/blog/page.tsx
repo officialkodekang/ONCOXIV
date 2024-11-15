@@ -1,89 +1,3 @@
-// // app/blog/page.tsx
-// "use client";
-
-// import React, { useState } from 'react';
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Metadata } from "next";
-// import Image from "next/image";
-// import Link from "next/link";
-
-
-
-// export default function BlogIndexPage() {
-//   // State variables for the upload functionality
-//   const [file, setFile] = useState<File | null>(null);
-//   const [results, setResults] = useState<string | null>(null);
-//   const [loading, setLoading] = useState<boolean>(false);
-
-//   // Event handlers
-//   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     if (event.target.files) {
-//       setFile(event.target.files[0]);
-//     }
-//   };
-
-//   const handleSubmit = async () => {
-//     if (!file) {
-//       alert("Please select a file first!");
-//       return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append("file", file);
-
-//     setLoading(true);
-//     try {
-//       const response = await fetch("/api/process-image", {
-//         method: "POST",
-//         body: formData,
-//       });
-
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-
-//       const data = await response.json();
-//       setResults(JSON.stringify(data, null, 2));
-//     } catch (error) {
-//       console.error("Error:", error);
-//       alert("Failed to upload image");
-//     }
-//     setLoading(false);
-//   };
-
-//   return (
-//     <div className="w-full mx-auto flex flex-col gap-1 sm:min-h-[91vh] min-h-[88vh] pt-2">
-//       <div className="mb-7 flex flex-col gap-2">
-//         <h1 className="text-3xl font-extrabold">Upload an Image</h1>
-//         <p className="text-muted-foreground">
-//           Upload your image and process it here.
-//         </p>
-//       </div>
-
-//       {/* Upload Section */}
-//       <div>
-//         <input type="file" onChange={handleFileChange} />
-//         <button onClick={handleSubmit} disabled={loading}>
-//           {loading ? "Processing..." : "Submit"}
-//         </button>
-//         {results && (
-//           <div>
-//             <h3>Results:</h3>
-//             <pre>{results}</pre>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-// app/blog/page.tsx
-// app/blog/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -94,7 +8,7 @@ export default function UploadPage() {
   const [result, setResult] = useState<string | null>(null);
   const [heatmapImage, setHeatmapImage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedModel, setSelectedModel] = useState("vgg"); // Default model
+  const [selectedModel, setSelectedModel] = useState("resnet"); // Default model is now ResNet
 
   // Label maps with numeric keys
   const binaryLabelMap: { [key: number]: string } = {
@@ -103,7 +17,6 @@ export default function UploadPage() {
   };
 
   const subtypeLabelMap: { [key: number]: string } = {
-    [-1]: "Not applicable",
     0: "Pre-B",
     1: "Pro-B",
     2: "early Pre-B",
@@ -212,8 +125,8 @@ export default function UploadPage() {
           onChange={handleModelChange}
           className="border rounded p-2 w-full md:w-1/2"
         >
-          <option value="vgg">VGG</option>
           <option value="resnet">ResNet</option>
+          <option value="vgg">VGG</option>
         </select>
       </div>
 
@@ -232,9 +145,8 @@ export default function UploadPage() {
             className="border rounded p-2 w-full"
           />
         </div>
-      </div>
 
-      <div className="flex items-end sm:items-center w-full sm:w-1/3">
+        <div className="flex items-end sm:items-center w-full sm:w-1/3">
           <button
             onClick={handleSubmit}
             disabled={loading}
@@ -247,6 +159,7 @@ export default function UploadPage() {
             {loading ? "Processing..." : "Submit"}
           </button>
         </div>
+      </div>
 
       {/* Display the images and results side by side */}
       {(imagePreview || heatmapImage || result) && (
@@ -291,7 +204,3 @@ export default function UploadPage() {
     </div>
   );
 }
-
-
-
-
